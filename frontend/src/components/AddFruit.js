@@ -41,7 +41,7 @@ const AddFruit = () =>{
     }
 
     return (
-      <div>
+      <div class='col-md-8'>
         <h1>Add fruits here</h1>
 
         <form onSubmit={handleSubmit}>
@@ -50,6 +50,7 @@ const AddFruit = () =>{
           <input
             type='text'
             name='name'
+            class='form-control'
             value={fruit.name}
             onChange={handleChange}
             required
@@ -61,6 +62,7 @@ const AddFruit = () =>{
           <input
             type='text'
             name='amount'
+            class='form-control'
             onChange={handleChange}
             value={fruit.amount}
           />
@@ -71,12 +73,13 @@ const AddFruit = () =>{
           <input
             type='text'
             name='info'
+            class='form-control'
             onChange={handleChange}
             value={fruit.info}
           />
           <br />
           <br />
-          <input type='submit' value='Add fruit' />
+          <input type='submit' class='btn btn-primary' value='Add fruit' />
         </form>
       </div>
     );

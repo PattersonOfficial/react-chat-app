@@ -25,3 +25,35 @@ Content-Type: application/json
     "amount": 23,
     "info": "Wife Hopeful"
 }
+
+
+#### User Routes  ####
+
+#### Route for getting list of all users
+
+GET http://localhost:5000/api/users/register
+
+#### Route for user registration
+POST  http://localhost:5000/api/users/register
+Content-Type: application/json
+
+{
+    "name": "Benjamin Akrong",
+    "password": "@#toribae"
+}
+
+#### Route for deleting user account
+DELETE http://localhost:5000/api/users/60b16e051a726945481ba42c
+
+
+###  
+GET http://localhost:5000/api/users/login
+
+####
+POST  http://localhost:5000/api/users/login
+Content-Type: application/json
+
+{
+    "name": "Benjamin Akrong",
+    "password": "@#toribae"
+}

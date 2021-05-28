@@ -12,17 +12,24 @@ mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology:
 // importing path for production build
 const path = require('path')
 
-// creating a mongodb connection
+// creating and opening mongodb connection
 const database = mongoose.connection
 database.once('open', () => console.log('Connection to database!'))
 
-
 // importing fruits routes
-const  fruitsRouter = require('./routes/fruits')
+const fruitsRouter = require('./routes/fruits')
 
+// importing users routes
+const usersRouter = require('./routes/users')
+
+// setting data to use json objects
 app.use(express.json())
 
+// setting fruits routes
 app.use('/api/fruits', fruitsRouter)
+
+// setting users routes
+app.use('/api/users', usersRouter)
 
 
 app.use(express.static(path.join(__dirname, '../frontend/build')))

@@ -41,7 +41,7 @@ const EditFruit = ({ match }) => {
    }
 
   return (
-    <div>
+    <div class='col-md-8'>
       <h1>Editing {fruit.name}</h1>
 
       <form>
@@ -50,6 +50,7 @@ const EditFruit = ({ match }) => {
         <input
           type='text'
           name='name'
+          class='form-control'
           value={fruit.name}
           onChange={handleChange}
           required
@@ -61,6 +62,7 @@ const EditFruit = ({ match }) => {
         <input
           type='text'
           name='amount'
+          class='form-control'
           onChange={handleChange}
           value={fruit.amount}
         />
@@ -71,17 +73,20 @@ const EditFruit = ({ match }) => {
         <input
           type='text'
           name='info'
+          class='form-control'
           onChange={handleChange}
           value={fruit.info}
         />
         <br />
         <br />
-
-        <Button className='btn btn-warning' onClick={fruitUpdate}>Update fruit</Button> 
+        <Button className='btn btn-warning' onClick={fruitUpdate}>
+          Update fruit
+        </Button>
         &nbsp; &nbsp;
-        <Button className='btn btn-danger' onClick={fruitDelete}>Delete fruit</Button>
+        <Button className='btn btn-dark' onClick={fruitDelete}>
+          Delete fruit
+        </Button>
       </form>
-
     </div>
   );
 };
