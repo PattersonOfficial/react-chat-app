@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const fruitSchema = mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        maxlength: 30
     },
     amount: {
         type: Number,
@@ -12,6 +13,11 @@ const fruitSchema = mongoose.Schema({
     },
     info: {
         type: String,
+        maxlength: 100
+    },
+    addedBy: {
+        type: String,
+        default: 'Unknown User'
     },
     date: {
         type: Date,

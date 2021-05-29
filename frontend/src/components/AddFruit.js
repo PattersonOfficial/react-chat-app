@@ -1,7 +1,10 @@
 import axios from 'axios';
-import React, {useState } from 'react'
+import React, {useContext, useState } from 'react'
+import { UserContext } from '../App';
 
 const AddFruit = () =>{
+
+  const { userData, setUserData } = useContext(UserContext)
 
     const [fruit, setFruit] = useState({
         name: '',
@@ -14,10 +17,11 @@ const AddFruit = () =>{
         // console.log(`${fruit.name} - ${fruit.amount} - ${fruit.info}`)
 
         const newFruit = {
-            name: fruit.name,
-            amount: fruit.amount,
-            info: fruit.info
-        }
+          name: fruit.name,
+          amount: fruit.amount,
+          info: fruit.info,
+          addedBy: userData.user.name
+        };
 
         axios.post('/api/fruits/', newFruit)
         .then(res => console.log(res.data))
@@ -79,7 +83,13 @@ const AddFruit = () =>{
           />
           <br />
           <br />
-          <input type='submit' class='btn btn-primary' value='Add fruit' />
+          {userData.user? (
+            <>
+              <input type='submit' class='btn btn-primary' value='Add fruit' />
+            </>
+          ) : (
+            <p>Cannot perform operation unless authenticated!!!</p>
+          )}
         </form>
       </div>
     );

@@ -23,6 +23,7 @@ router.post('/', (req, res) => {
     name: req.body.name,
     amount: req.body.amount,
     info: req.body.info,
+    addedBy: req.body.addedBy,
   });
 
   newFruits

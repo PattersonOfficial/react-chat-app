@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios'
-import {  Button  } from 'react-bootstrap'
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import { Button } from 'react-bootstrap';
+import { UserContext } from '../App';
 
 const EditFruit = ({ match }) => {
+  const { userData, setUserData } = useContext(UserContext);
+
   const [fruit, setFruit] = useState({
     name: '',
     amount: 0,
@@ -15,30 +18,32 @@ const EditFruit = ({ match }) => {
       .then((response) => setFruit(response.data));
   }, []);
 
-   const handleChange = (e) => {
-     const { name, value } = e.target;
-     setFruit((oldfruit) => {
-       return {
-         ...oldfruit,
-         [name]: value,
-       };
-     });
-   };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFruit((oldfruit) => {
+      return {
+        ...oldfruit,
+        [name]: value,
+      };
+    });
+  };
 
-   // update fruit information
-   const fruitUpdate = () => {
-     axios.put('/api/fruits/' + match.params.id, fruit)
-     .then((fruit) => console.log(fruit))
+  // update fruit information
+  const fruitUpdate = () => {
+    axios
+      .put('/api/fruits/' + match.params.id, fruit)
+      .then((fruit) => console.log(fruit));
 
-     window.location = '/fruitlist'
-   }
+    window.location = '/fruitlist';
+  };
 
-   const fruitDelete = () => {
-       axios.delete('/api/fruits/' + match.params.id)
-       .then((res) => console.log(res.status))
+  const fruitDelete = () => {
+    axios
+      .delete('/api/fruits/' + match.params.id)
+      .then((res) => console.log(res.status));
 
-       window.location = '/fruitlist'
-   }
+    window.location = '/fruitlist';
+  };
 
   return (
     <div class='col-md-8'>
@@ -79,16 +84,22 @@ const EditFruit = ({ match }) => {
         />
         <br />
         <br />
-        <Button className='btn btn-warning' onClick={fruitUpdate}>
-          Update fruit
-        </Button>
-        &nbsp; &nbsp;
-        <Button className='btn btn-dark' onClick={fruitDelete}>
-          Delete fruit
-        </Button>
+        {userData.user ? (
+          <>
+            <Button className='btn btn-warning' onClick={fruitUpdate}>
+              Update fruit
+            </Button>
+            &nbsp; &nbsp;
+            <Button className='btn btn-dark' onClick={fruitDelete}>
+              Delete fruit
+            </Button>
+          </>
+        ) : (
+          <p>Cannot perform operation unless authenticated!!!</p>
+        )}
       </form>
     </div>
   );
 };
 
-export default EditFruit
+export default EditFruit;
