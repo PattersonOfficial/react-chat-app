@@ -20,6 +20,9 @@ This is a chat application built with socket io and with a basic JWT authenticat
 8. nodemon: 2.0.7
 9. socket.io: 4.1.2"
 
+### Demo
+https://akrong-react-chat.herokuapp.com/
+
 ### Heroku Repository
 To clone this project from heroku run 'heroku git:clone -a akrong-react-chat'.
 

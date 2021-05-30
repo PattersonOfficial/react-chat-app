@@ -103,9 +103,17 @@ const Chat = () => {
             style={{ border: '1px solid black', borderRadius: '10px' }}
           >
             <br />
+
+            <h7>
+              Email: <b>{userData.user.email}</b>
+            </h7>
+
+            <br /> <br />
+
             <h6>
               <b>Users Online:</b>
             </h6>
+
             <ul style={{ listStyleType: 'none' }}>
               {chatUsers.map((user) => {
                 return (
@@ -127,7 +135,7 @@ const Chat = () => {
               id='chatMessages'
               style={{ border: '1px solid white', borderRadius: '10px' }}
             >
-              &nbsp; &nbsp;  Messages: 
+              &nbsp; &nbsp; Messages:
               <ul style={{ listStyle: 'none' }}>
                 {messageList.map((chat, index) => {
                   return (
@@ -163,7 +171,7 @@ const Chat = () => {
               <input
                 type='submit'
                 class='btn btn-success btn-sm'
-                value='Message!'
+                value='Send Me!'
               />
 
               <br />
