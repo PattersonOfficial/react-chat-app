@@ -13,7 +13,7 @@ const Chat = () => {
 
      const [messageList, setMessageList] = useState([]);
 
-     const [currentRoom, setCurrentRoom] = useState('General Chat');
+     const [currentRoom, setCurrentRoom] = useState(userData.user.name);
 
      const [chatMessage, setChatMessage] = useState({
        name: '',
