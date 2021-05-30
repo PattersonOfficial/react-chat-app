@@ -46,3 +46,9 @@ after installing all the necessary packages, run 'npm run dev' to run the applic
 1. Block User Function
 2. Remove user from personal list
 
+####
+1. Click register or login if you already have registered previously.
+2. Click on the chat link in the navigation bar to enter chat arena
+3. Click on the names of the users online to chat with them. 
+
+Notive: A connection is created for the chat when you click on the user you want to chat with. Stay in that space to stay connected.

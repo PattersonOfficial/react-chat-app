@@ -10,9 +10,6 @@ const port = process.env.PORT || 5000
 // importing mongoose 
 const mongoose = require('mongoose');
 
-// importing fruits routes
-// const fruitsRouter = require('./routes/fruits')
-
 // importing users routes
 const usersRouter = require('./routes/users')
 
@@ -29,9 +26,6 @@ database.once('open', () => console.log('Connection to database!'))
 
 // setting data to use json objects
 app.use(express.json())
-
-// setting fruits routes
-// app.use('/api/fruits', fruitsRouter)
 
 // setting users routes
 app.use('/api/users', usersRouter)

@@ -103,24 +103,6 @@ const Chat = () => {
             style={{ border: '1px solid black', borderRadius: '10px' }}
           >
             <br />
-            {/* <h6 onClick={enteringRoom} style={{ cursor: 'pointer' }}>
-              General Chat
-            </h6>
-            <br />
-            <p>
-              <b>Chat Rooms</b>
-            </p>
-            <ul style={{ listStyleType: 'none' }}>
-              <li onClick={enteringRoom} style={{ cursor: 'pointer' }}>
-                Apple
-              </li>
-              <li onClick={enteringRoom} style={{ cursor: 'pointer' }}>
-                Banana
-              </li>
-              <li onClick={enteringRoom} style={{ cursor: 'pointer' }}>
-                Carrot
-              </li>
-            </ul> */}
             <h6>
               <b>Users Online:</b>
             </h6>
