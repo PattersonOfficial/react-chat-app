@@ -13,7 +13,7 @@ const auth = require('../middleware/auth');
 
 
 // route to get list of all registered users
-router.get('/register', auth, (req, res) => {
+router.get('/register', (req, res) => {
   User.find()
     .then((users) => res.json(users))
     .catch((err) => res.status(400).json('Error: ' + err));
@@ -73,7 +73,7 @@ router.get('/profile', auth, async(req, res) => {
 // route function for deleting user account from themselves
 router.delete('/profile', auth, (req, res) => {
   User.findByIdAndDelete(req.user._id)
-    .then(() => res.json('User deleted'))
+    .then(() => res.json('User account deleted'))
     .catch((err) => res.status(400).json('Error: ' + err));
 });
 
@@ -89,6 +89,10 @@ router.delete('/:id', (req, res) => {
 
 // route function for user authentication
 router.post('/login', async (req, res) => {
+  //validation
+  if (!req.body.name || !req.body.password) {
+    return res.status(400).json({ msg: 'Please enter all fields' });
+  }
   const user = await User.findOne({ name: req.body.name });
 
   if (!user) {
@@ -98,7 +102,7 @@ router.post('/login', async (req, res) => {
   // Load hash from your password DB and compare.
   bcrypt.compare(req.body.password, user.password, function (err, response) {
     if (!response) {
-      return res.status(400).send({ message: 'User does not exist' });
+      return res.status(400).send({ message: 'Authentication Error' });
     } else {
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
       res.json({

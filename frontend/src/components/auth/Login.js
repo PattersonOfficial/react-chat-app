@@ -1,56 +1,63 @@
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import { UserContext } from '../../App';
 import ErrorMsg from '../ErrorMsg';
+import axios from 'axios';
+import { Button } from 'react-bootstrap';
 
 const Login = () => {
- const { userData, setUserData } = useContext(UserContext);
 
- const [user, setUser] = useState({
-   name: '',
-   password: '',
- });
- const [errorMsg, setErrorMsg] = useState();
+  const { userData, setUserData } = useContext(UserContext);
 
- const handleSubmit = async (e) => {
-   e.preventDefault();
+  const [user, setUser] = useState({
+    name: '',
+    password: '',
+  });
 
-   try {
-     const newUser = {
-       name: user.name,
-       password: user.password,
-     };
+  const [errorMsg, setErrorMsg] = useState();
 
-     const loginResponse = await axios.post('/api/users/login', newUser);
-     //console.log(loginResponse.data)
-     setUserData({
-       token: loginResponse.data.token,
-       user: loginResponse.data.user,
-     });
-     localStorage.setItem('auth-token', loginResponse.data.token);
+  const handleSubmit = async (e) => {
+  
+    e.preventDefault();
 
-     setUser({
-       name: '',
-       password: '',
-     });
+    try {
+      const newUser = {
+        name: user.name,
+        password: user.password,
+      };
 
-     window.location = '/home';
-   } catch (err) {
-     err.response.data.msg
-       ? setErrorMsg(err.response.data.msg)
-       : setErrorMsg('We have an error!');
-   }
- };
+      const loginResponse = await axios.post('/api/users/login', newUser);
+      
+      console.log(loginResponse.data)
+      
+      setUserData({
+        token: loginResponse.data.token,
+        user: loginResponse.data.user,
+      });
 
- const handleChange = (e) => {
-   const { name, value } = e.target;
-   setUser((oldUser) => {
-     return {
-       ...oldUser,
-       [name]: value,
-     };
-   });
- };
+      localStorage.setItem('auth-token', loginResponse.data.token);
+
+      setUser({
+        name: '',
+        password: '',
+      });
+
+      window.location = '/fruitlist';
+    } catch (err) {
+      err.response.data.msg
+        ? setErrorMsg(err.response.data.msg)
+        : setErrorMsg('Something went horribly wrong!');
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser((oldUser) => {
+      return {
+        ...oldUser,
+        [name]: value,
+      };
+    });
+  };
   return (
     <div class='col-md-8'>
       <h1>Login Form</h1>

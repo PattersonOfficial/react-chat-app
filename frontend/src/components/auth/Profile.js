@@ -9,27 +9,26 @@ const Profile = () => {
 
   const [fruits, setFruits] = useState([]);
 
- const userDelete = () => {
-   axios
-     .delete('/api/users/profile', {
-       headers: {
-         'auth-token': userData.token,
-       },
-     })
-     .then((window.location = '/fruitlist'));
-
-   setUserData({
-     token: undefined,
-     user: undefined,
-   });
-   localStorage.setItem('auth-token', '');
- };
-
   // using use effect to get run fetching data once
   useEffect(() => {
-    // Using json placeholder to get fake user json data
     axios.get('/api/fruits').then((response) => setFruits(response.data));
   }, []);
+
+  const userDelete = () => {
+    axios
+      .delete('/api/users/profile', {
+        headers: {
+          'auth-token': userData.token,
+        },
+      })
+      .then((window.location = '/fruitlist'));
+
+    setUserData({
+      token: undefined,
+      user: undefined,
+    });
+    localStorage.setItem('auth-token', '');
+  };
 
   return (
     <div class='col-md-8'>
@@ -99,7 +98,7 @@ const Profile = () => {
         </fieldset>
       </div>
 
-      <br/>
+      <br />
 
       <h5>
         <b>Fruits Added:</b>
@@ -116,11 +115,16 @@ const Profile = () => {
             .map((fruit) => {
               return (
                 <li key={fruit._id}>
-                  <Link to={`/fruit/${fruit._id}`}>{fruit.name}</Link> (
-                  {fruit.amount}) - {fruit.info} [Added on
-                  {fruit.date.toString().slice(0, 10) +
-                    '@' +
-                    fruit.date.toString().slice(11, 19)}
+                  <Link to={`/fruit/${fruit._id}`}>
+                    <b>{fruit.name}</b>
+                  </Link>{' '}
+                  ({fruit.amount}) - {fruit.info}
+                  &nbsp;[Added on{' '}
+                  <i>
+                    {fruit.date.toString().slice(0, 10) +
+                      ' @ ' +
+                      fruit.date.toString().slice(11, 19)}
+                  </i>
                   ]
                 </li>
               );

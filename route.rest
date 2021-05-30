@@ -1,33 +1,5 @@
-GET http://localhost:5000/api/fruits
 
-
-####
-
-POST http://localhost:5000/api/fruits
-Content-Type: application/json
-
-{
-    "name": "ToriBae",
-    "amount": 77,
-    "info": "My Darling"
-}
-
-####
-DELETE http://localhost:5000/api/fruits/60b0273f99186b4868dfd71f
-
-####
-PUT   http://localhost:5000/api/fruits/60b02b2d1d99da4de0735400
-
-Content-Type: application/json
-
-{
-    "name": "Mrs Akrong Mensah",
-    "amount": 23,
-    "info": "Wife Hopeful"
-}
-
-
-#### User Routes  ####
+#### ********** User Routes ********** ####
 
 #### Route for getting list of all users
 GET http://localhost:5000/api/users/register

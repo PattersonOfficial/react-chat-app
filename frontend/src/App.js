@@ -1,7 +1,7 @@
-import { createContext, useState, useEffect } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { Container } from 'react-bootstrap'
-import axios from 'axios'
+import { createContext, useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import axios from 'axios';
 
 import Header from './components/Header';
 import Welcome from './components/Welcome';
@@ -11,20 +11,17 @@ import EditFruit from './components/EditFruit';
 import Chat from './components/Chat';
 import Home from './components/Home';
 
-
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Profile from './components/auth/Profile';
 
-
 export const UserContext = createContext();
 
 function App() {
-
- const [userData, setUserData] = useState({
+  const [userData, setUserData] = useState({
     token: undefined,
     user: undefined,
-  })
+  });
 
   useEffect(() => {
     const isLoggedIn = async () => {
@@ -53,23 +50,23 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <UserContext.Provider value={{ userData, setUserData }}>
+    <UserContext.Provider value={{ userData, setUserData }}>
+      <Router>
         <Header />
         <br />
         <Container>
           <Route path='/' exact component={Welcome} />
-          {/* <Route path='/fruitlist' component={FruitList} />
+          <Route path='/fruitlist' component={FruitList} />
           <Route path='/addfruit' component={AddFruit} />
-          <Route path='/fruit/:id' component={EditFruit} /> */}
+          <Route path='/fruit/:id' component={EditFruit} />
           <Route path='/register' component={Register} />
           <Route path='/login' component={Login} />
           <Route path='/profile' component={Profile} />
           <Route path='/chat' component={Chat} />
           <Route path='/home' component={Home} />
         </Container>
-      </UserContext.Provider>
-    </Router>
+      </Router>
+    </UserContext.Provider>
   );
 }
 

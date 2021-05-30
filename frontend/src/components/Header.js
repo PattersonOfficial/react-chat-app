@@ -30,14 +30,14 @@ const Header = () => {
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
-            {/* <Nav className='ml-auto'>
+            <Nav className='ml-auto'>
               <LinkContainer to='/fruitlist'>
                 <Nav.Link>Fruit List</Nav.Link>
               </LinkContainer>
               <LinkContainer to='/addfruit'>
                 <Nav.Link>Add New Fruit</Nav.Link>
               </LinkContainer>
-            </Nav> */}
+            </Nav>
 
             {userData.user ? (
               <Nav className='mr-auto'>

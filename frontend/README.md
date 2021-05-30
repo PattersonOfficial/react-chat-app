@@ -1,13 +1,48 @@
 # Web Chat App
 
-This is a chat application built with the mern stack, socket io and with a basic JWT authentication
+This is a chat application built with socket io and with a basic JWT authentication
+
+### Stack (Mern)
+1. MongoDB
+2. Express
+3. React
+4. Node
+
+
+### Installed Packages
+1. axios: 0.21.1,
+2. bcryptjs: 2.4.3
+3. concurrently: 6.2.0
+4. dotenv: 10.0.0
+5. express: 4.17.1
+6. jsonwebtoken: 8.5.1
+7. mongoose: 5.12.11
+8. nodemon: 2.0.7
+9. socket.io: 4.1.2"
+
+### Git Repository
+To clone this project, 'git clone https://git.heroku.com/akrong-react-chat.git' would do the trick just fine.
+
 
 ### Package Installation
 
-type 'npm install' to install all needed and required packages for this project
+type 'npm install && npm --prefix frontend install' to install all needed and required packages dependencies for this project
+
 
 ### Running Application
 
 after installing all the necessary packages, run 'npm run dev' to run the application
 
-###
+### Features
+
+1. Register
+2. Login
+3. Profile
+4. Delete Account
+5. Current Online Users List
+6. Click on user(s) to chat
+
+### Todo
+1. Block User Function
+2. Remove user from personal list
+

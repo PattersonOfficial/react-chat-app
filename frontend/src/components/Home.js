@@ -1,8 +1,8 @@
 import React from 'react'
 import { Container } from 'react-bootstrap';
 
-export const Home = () => {
-    return (
+const Home = () => {
+  return (
       <div>
         <Container>
           <Container>
@@ -25,4 +25,4 @@ export const Home = () => {
     );
 }
 
-export default Home;
+export default Home

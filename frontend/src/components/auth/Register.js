@@ -6,15 +6,15 @@ import ErrorMsg from '../ErrorMsg';
 const Register = () => {
   const { userData, setUserData } = useContext(UserContext);
 
-  const [ errorMsg, setErrorMsg] = useState()
-
   const [user, setUser] = useState({
     name: '',
     email: '',
     password: '',
     passwordAgain: '',
   });
-
+  
+  const [ errorMsg, setErrorMsg] = useState()
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -28,6 +28,9 @@ const Register = () => {
     if (user.password !== user.passwordAgain) {
       setErrorMsg('Passwords do not match');
     } else {
+
+      console.log(newUser);
+    }
 
       await axios.post('/api/users/register', newUser);
 
@@ -46,8 +49,7 @@ const Register = () => {
         passwordAgain: '',
       });
 
-      window.location = '/home';
-    }
+      window.location = '/fruitlist';
       
     } catch (err) {
       err.response.data.message
