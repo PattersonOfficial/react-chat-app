@@ -11,29 +11,28 @@ const Chat = () => {
 
      const [chatUsers, setChatUsers] = useState([]);
 
+     const [messageList, setMessageList] = useState([]);
+
+     const [currentRoom, setCurrentRoom] = useState('General Chat');
+
      const [chatMessage, setChatMessage] = useState({
        name: '',
-       msg: '',
+       message: '',
        room: '',
        isPrivate: false,
      });
 
      useEffect(() => {
-         console.log(userData);
        socket.emit('userJoin', userData.user.name);
      }, []);
 
 
 
-  const [messageList, setMessageList] = useState([]);
-
-  const [currentRoom, setCurrentRoom] = useState('');
-
 
 // listening for new and current users in the system
    socket.on('userList', (userList) => {
      setChatUsers(userList);
-     setChatMessage({ name: userData.user.name, msg: chatMessage.msg });
+     setChatMessage({ name: userData.user.name, message: chatMessage.message });
    });
 
    const handleChange = (e) => {
@@ -42,7 +41,7 @@ const Chat = () => {
 
 
   useEffect(() => {
-    socket.emit('userJoin', socket.id);
+    socket.emit('userJoin', userData.user.name);
   }, []);
 
   // listening to new messages from the server
@@ -80,15 +79,14 @@ const Chat = () => {
     let oldRoom = currentRoom;
     let newRoom = e.target.textContent;
     setCurrentRoom(newRoom);
-
     socket.emit('roomEntered', { oldRoom, newRoom });
     setMessageList([]);
   };
 
-  const privateChat = (roomName, userList) => {
+  const privateChat = (roomname, userList) => {
     let isPrivate = false;
     userList.forEach((username) => {
-      if (username === roomName) {
+      if (username === roomname) {
         isPrivate = true;
       }
     });
@@ -104,31 +102,29 @@ const Chat = () => {
             xs={5}
             style={{ border: '1px solid black', borderRadius: '10px' }}
           >
+            <br />
             {/* <h6 onClick={enteringRoom} style={{ cursor: 'pointer' }}>
               General Chat
             </h6>
-
             <br />
-
-            <h6>Chat Rooms</h6>
-
-            <ul style={{ listStyle: 'none' }}>
+            <p>
+              <b>Chat Rooms</b>
+            </p>
+            <ul style={{ listStyleType: 'none' }}>
               <li onClick={enteringRoom} style={{ cursor: 'pointer' }}>
-                Tech
+                Apple
               </li>
               <li onClick={enteringRoom} style={{ cursor: 'pointer' }}>
-                Money
+                Banana
               </li>
               <li onClick={enteringRoom} style={{ cursor: 'pointer' }}>
-                Love
+                Carrot
               </li>
             </ul> */}
-
-            <br />
-
-            <h6>Users Online</h6>
-
-            <ul style={{ listStyle: 'none' }}>
+            <h6>
+              <b>Users Online:</b>
+            </h6>
+            <ul style={{ listStyleType: 'none' }}>
               {chatUsers.map((user) => {
                 return (
                   <li
@@ -144,24 +140,22 @@ const Chat = () => {
           </Col>
           &nbsp; &nbsp;
           <Col style={{ border: '1px solid black', borderRadius: '10px' }}>
-            <br />
-            <h6>Chat Messages { currentRoom ? ({currentRoom}) : ''}</h6>
-
+            <p>Chat Messages ({currentRoom})</p>
             <div
               id='chatMessages'
               style={{ border: '1px solid white', borderRadius: '10px' }}
             >
-                <br />
-              <h6> &nbsp; &nbsp; Messages: </h6>
-
+              &nbsp; &nbsp;  Messages: 
               <ul style={{ listStyle: 'none' }}>
                 {messageList.map((chat, index) => {
                   return (
                     <li key={index}>
-                      <b>{chat.name}</b>
+                      <b>{chat.name}: </b>
                       <i>
                         <span
-                          style={{ color: chat.isPrivate ? 'red' : 'black' }}
+                          style={{
+                            color: messageList.isPrivate ? 'white' : 'black',
+                          }}
                         >
                           {chat.message}
                         </span>
@@ -180,12 +174,18 @@ const Chat = () => {
                 name='message'
                 class='form-control'
                 value={chatMessage.message}
-                required
                 onChange={handleChange}
+                required
               />
               <br />
-              <input type='submit' class='btn btn-success' value='Send' />
-              <br /> <br />
+              <input
+                type='submit'
+                class='btn btn-success btn-sm'
+                value='Message!'
+              />
+
+              <br />
+              <br />
             </form>
           </Col>
         </Row>

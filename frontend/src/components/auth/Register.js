@@ -49,7 +49,7 @@ const Register = () => {
         passwordAgain: '',
       });
 
-      window.location = '/fruitlist';
+      window.location = '/home';
       
     } catch (err) {
       err.response.data.message

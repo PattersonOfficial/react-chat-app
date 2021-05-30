@@ -91,7 +91,7 @@ router.delete('/:id', (req, res) => {
 router.post('/login', async (req, res) => {
   //validation
   if (!req.body.name || !req.body.password) {
-    return res.status(400).json({ msg: 'Please enter all fields' });
+    return res.status(400).json({ message: 'Please enter all fields' });
   }
   const user = await User.findOne({ name: req.body.name });
 

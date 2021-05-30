@@ -11,7 +11,7 @@ const port = process.env.PORT || 5000
 const mongoose = require('mongoose');
 
 // importing fruits routes
-const fruitsRouter = require('./routes/fruits')
+// const fruitsRouter = require('./routes/fruits')
 
 // importing users routes
 const usersRouter = require('./routes/users')
@@ -31,7 +31,7 @@ database.once('open', () => console.log('Connection to database!'))
 app.use(express.json())
 
 // setting fruits routes
-app.use('/api/fruits', fruitsRouter)
+// app.use('/api/fruits', fruitsRouter)
 
 // setting users routes
 app.use('/api/users', usersRouter)
@@ -42,14 +42,14 @@ let users = {}
 
 // Socket io function 
 io.on('connection', socket => {
-  console.log('Hello from Server. Socket ID: ' + socket.id)
+  // console.log('Hello from Server. Socket ID: ' + socket.id)
   
 
   // updating the connected users list
   socket.on('userJoin', (username) => {
     users[socket.id] = username;
     socket.join(username);
-    socket.join('');
+    socket.join('General Chat');
     console.log('User Object after connection: ', users);
     io.emit('userList', [...new Set(Object.values(users))]);
   });
@@ -61,16 +61,18 @@ io.on('connection', socket => {
 
   // joining a chat room
   socket.on('roomEntered', ({ oldRoom, newRoom}) => {
-    socket.leave(oldRoom)
-    io.to(oldRoom).emit('newMessage', {
-      name: 'News',
-      message: `${users[socket.id]} just left "${oldRoom}"`,
-    });
-    io.to(newRoom).emit('newMessage', {
-      name: 'News',
-      message: `${user[socket.id]} just joined "${newRoom}"`,
-    });
-    socket.join(newRoom)
+    socket.leave(oldRoom);
+    // io.to(oldRoom).emit('newMessage', {
+    //   name: 'Notice ',
+    //   message: `${users[socket.id]} just left "${oldRoom}"`,
+    // });
+    io.to(oldRoom)
+    // io.to(newRoom).emit('newMessage', {
+    //   name: 'Notice ',
+    //   message: `${users[socket.id]} just joined "${newRoom}"`,
+    // });
+    io.to(newRoom)
+    socket.join(newRoom);
   });
 
   // taking out all users who have discounted from the server

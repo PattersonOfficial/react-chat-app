@@ -5,9 +5,9 @@ import axios from 'axios';
 
 import Header from './components/Header';
 import Welcome from './components/Welcome';
-import FruitList from './components/FruitList';
-import AddFruit from './components/AddFruit';
-import EditFruit from './components/EditFruit';
+// import FruitList from './components/FruitList';
+// import AddFruit from './components/AddFruit';
+// import EditFruit from './components/EditFruit';
 import Chat from './components/Chat';
 import Home from './components/Home';
 
@@ -56,9 +56,9 @@ function App() {
         <br />
         <Container>
           <Route path='/' exact component={Welcome} />
-          <Route path='/fruitlist' component={FruitList} />
+          {/* <Route path='/fruitlist' component={FruitList} />
           <Route path='/addfruit' component={AddFruit} />
-          <Route path='/fruit/:id' component={EditFruit} />
+          <Route path='/fruit/:id' component={EditFruit} /> */}
           <Route path='/register' component={Register} />
           <Route path='/login' component={Login} />
           <Route path='/profile' component={Profile} />

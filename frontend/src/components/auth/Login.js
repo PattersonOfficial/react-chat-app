@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { UserContext } from '../../App';
 import ErrorMsg from '../ErrorMsg';
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
 
 const Login = () => {
 
@@ -27,12 +26,14 @@ const Login = () => {
 
       const loginResponse = await axios.post('/api/users/login', newUser);
       
-      console.log(loginResponse.data)
+      // console.log(loginResponse.data)
       
       setUserData({
         token: loginResponse.data.token,
         user: loginResponse.data.user,
       });
+
+      console.log(userData)
 
       localStorage.setItem('auth-token', loginResponse.data.token);
 
@@ -41,7 +42,7 @@ const Login = () => {
         password: '',
       });
 
-      window.location = '/fruitlist';
+      window.location = '/home';
     } catch (err) {
       err.response.data.msg
         ? setErrorMsg(err.response.data.msg)
