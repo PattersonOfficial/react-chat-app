@@ -78,19 +78,13 @@ router.delete('/profile', auth, (req, res) => {
 });
 
 
+
 // route function for deleting user account
 router.delete('/:id', (req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then(() => res.json('User Account Deleted'))
     .catch((err) => res.status(400).json('Error ' + err));
 });
-
-
-
-router.get('/login', (req, res) => {
-  res.send('GET login');
-});
-
 
 
 // route function for user authentication

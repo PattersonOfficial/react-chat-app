@@ -1,32 +1,35 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useState, useEffect } from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Container } from 'react-bootstrap'
+import axios from 'axios'
 
 import Header from './components/Header';
 import Welcome from './components/Welcome';
 import FruitList from './components/FruitList';
 import AddFruit from './components/AddFruit';
 import EditFruit from './components/EditFruit';
+import Chat from './components/Chat';
+import Home from './components/Home';
+
+
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Profile from './components/auth/Profile';
-import axios from 'axios';
+
 
 export const UserContext = createContext();
 
 function App() {
-  const [userData, setUserData] = useState({
+
+ const [userData, setUserData] = useState({
     token: undefined,
     user: undefined,
-  });
+  })
 
   useEffect(() => {
-    // checking is user is already logged in
-
     const isLoggedIn = async () => {
       let token = localStorage.getItem('auth-token');
-
-      if (token === null) {
+      if (token == null) {
         localStorage.setItem('auth-token', '');
         token = '';
       }
@@ -35,21 +38,17 @@ function App() {
         headers: { 'auth-token': token },
       });
 
-      // console.log(tokenResponse.data)
-
+      console.log(tokenResponse.data);
       if (tokenResponse.data) {
         const userResponse = await axios.get('/api/users/profile', {
           headers: { 'auth-token': token },
         });
-
-        // setting user data including the token and making it available to all child components
         setUserData({
           token: token,
           user: userResponse.data,
         });
       }
     };
-
     isLoggedIn();
   }, []);
 
@@ -60,12 +59,14 @@ function App() {
         <br />
         <Container>
           <Route path='/' exact component={Welcome} />
-          <Route path='/fruitlist' component={FruitList} />
+          {/* <Route path='/fruitlist' component={FruitList} />
           <Route path='/addfruit' component={AddFruit} />
-          <Route path='/fruit/:id' component={EditFruit} />
+          <Route path='/fruit/:id' component={EditFruit} /> */}
           <Route path='/register' component={Register} />
           <Route path='/login' component={Login} />
           <Route path='/profile' component={Profile} />
+          <Route path='/chat' component={Chat} />
+          <Route path='/home' component={Home} />
         </Container>
       </UserContext.Provider>
     </Router>

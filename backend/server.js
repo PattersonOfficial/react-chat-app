@@ -16,6 +16,10 @@ const path = require('path')
 const database = mongoose.connection
 database.once('open', () => console.log('Connection to database!'))
 
+// creating and setting up socket io 
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
+
 // importing fruits routes
 const fruitsRouter = require('./routes/fruits')
 
@@ -32,10 +36,55 @@ app.use('/api/fruits', fruitsRouter)
 app.use('/api/users', usersRouter)
 
 
+// creating users array to house all connections and their IDs
+let users = {}
+
+// Socket io function 
+io.on('connection', socket => {
+  console.log('Hello from Server. Socket ID: ' + socket.id)
+  
+
+  // updating the connected users list
+  socket.on('userJoin', (username) => {
+    users[socket.id] = username;
+    socket.join(username);
+    socket.join('');
+    console.log('User Object after connection: ', users);
+    io.emit('userList', [...new Set(Object.values(users))]);
+  });
+
+  // receiving new messages from chatpage
+  socket.on('newMessage', newMessage => {
+    io.to(newMessage.room).emit('newMessage', {name: newMessage.name, message: newMessage.message, isPrivate: newMessage.isPrivate});
+  })
+
+  // joining a chat room
+  socket.on('roomEntered', ({ oldRoom, newRoom}) => {
+    socket.leave(oldRoom)
+    io.to(oldRoom).emit('newMessage', {
+      name: 'News',
+      message: `${users[socket.id]} just left the room`,
+    });
+    io.to(newRoom).emit('newMessage', {
+      name: 'News',
+      message: `${user[socket.id]} just joined the room`,
+    });
+    socket.join(newRoom)
+  });
+
+  // taking out all users who have discounted from the server
+  socket.on('disconnect', () => {
+    delete users[socket.id]
+    io.emit('userList', [...new Set(Object.values(users))]);
+    console.log('Users after disconnection : ', users)
+  })
+})
+
+
 app.use(express.static(path.join(__dirname, '../frontend/build')))
 app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../frontend/build/index.html')))
 
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })

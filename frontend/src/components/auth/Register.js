@@ -30,15 +30,14 @@ const Register = () => {
     } else {
 
       await axios.post('/api/users/register', newUser);
-      
+
       const loginResponse = await axios.post('/api/users/login', newUser);
-
-      localStorage.setItem('auth-token', loginResponse.data.token);
-
       setUserData({
         token: loginResponse.data.token,
         user: loginResponse.data.user,
       });
+
+      localStorage.setItem('auth-token', loginResponse.data.token);
 
       setUser({
         name: '',
@@ -47,7 +46,7 @@ const Register = () => {
         passwordAgain: '',
       });
 
-      window.location = '/fruitlist';
+      window.location = '/home';
     }
       
     } catch (err) {
