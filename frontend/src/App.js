@@ -8,8 +8,8 @@ import Welcome from './components/Welcome';
 import Chat from './components/Chat';
 import Home from './components/Home';
 
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
+// import Register from './components/auth/Register';
+// import Login from './components/auth/Login';
 import Profile from './components/auth/Profile';
 
 export const UserContext = createContext();
@@ -53,8 +53,8 @@ function App() {
         <br />
         <Container>
           <Route path='/' exact component={Welcome} />
-          <Route path='/register' component={Register} />
-          <Route path='/login' component={Login} />
+          {/* <Route path='/register' component={Register} /> */}
+          {/* <Route path='/login' component={Login} /> */}
           <Route path='/profile' component={Profile} />
           <Route path='/chat' component={Chat} />
           <Route path='/home' component={Home} />
