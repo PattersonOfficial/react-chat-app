@@ -1,16 +1,9 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
+import LoginButton from './LoginButton';
 
 const Welcome = () => {
-
-  const register = () => {
-    window.location = '/register'
-  }
-
-  const login = () => {
-    window.location = '/login'
-  }
 
   return (
     <div>
@@ -19,16 +12,11 @@ const Welcome = () => {
           <Container>
             <Container>
               <div>
-                <h1>Welcome</h1>
+                <h1>Welcome Buddie</h1>
                 <br />
                 <h6>
-                  <Button className='btn btn-success' onClick={register}>
-                    Register
-                  </Button>
-                  &nbsp; &nbsp;
-                  <Button className='btn btn-secondary' onClick={login}>
-                    Login
-                  </Button>
+                  You know the drill. Click on the button above to authenticate
+                  yourself and then chat
                 </h6>
                 <br />
               </div>

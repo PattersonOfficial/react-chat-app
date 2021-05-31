@@ -2,46 +2,44 @@ import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
 import { Container, Col, Row } from 'react-bootstrap';
 import io from 'socket.io-client';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const socket = io();
 
 const Chat = () => {
-    
-    const { userData, setUserData } = useContext(UserContext);
+  const { user, isAuthenticated } = useAuth0();
 
-     const [chatUsers, setChatUsers] = useState([]);
+  const { userData, setUserData } = useContext(UserContext);
 
-     const [messageList, setMessageList] = useState([]);
+  const [chatUsers, setChatUsers] = useState([]);
 
-     const [currentRoom, setCurrentRoom] = useState(userData.user.name);
+  const [messageList, setMessageList] = useState([]);
 
-     const [chatMessage, setChatMessage] = useState({
-       name: '',
-       message: '',
-       room: '',
-       isPrivate: false,
-     });
+  const [currentRoom, setCurrentRoom] = useState(user.name);
 
-     useEffect(() => {
-       socket.emit('userJoin', userData.user.name);
-     }, []);
-
-
-
-
-// listening for new and current users in the system
-   socket.on('userList', (userList) => {
-     setChatUsers(userList);
-     setChatMessage({ name: userData.user.name, message: chatMessage.message });
-   });
-
-   const handleChange = (e) => {
-     setChatMessage({ ...chatMessage, [e.target.name]: e.target.value });
-   };
-
+  const [chatMessage, setChatMessage] = useState({
+    name: '',
+    message: '',
+    room: '',
+    isPrivate: false,
+  });
 
   useEffect(() => {
-    socket.emit('userJoin', userData.user.name);
+    socket.emit('userJoin', user.name);
+  }, []);
+
+  // listening for new and current users in the system
+  socket.on('userList', (userList) => {
+    setChatUsers(userList);
+    setChatMessage({ name: user.name, message: chatMessage.message });
+  });
+
+  const handleChange = (e) => {
+    setChatMessage({ ...chatMessage, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    socket.emit('userJoin', user.name);
   }, []);
 
   // listening to new messages from the server
@@ -56,7 +54,6 @@ const Chat = () => {
     ]);
   });
 
- 
   const newMessageSubmit = (e) => {
     e.preventDefault();
 
@@ -70,7 +67,7 @@ const Chat = () => {
     socket.emit('newMessage', newMessage);
 
     setChatMessage({
-      name: userData.user.name,
+      name: user.name,
       message: '',
     });
   };
@@ -95,92 +92,88 @@ const Chat = () => {
   };
 
   return (
-    <div>
-      <Container>
-        <Row>
-          <Col
-            xs={5}
-            style={{ border: '1px solid black', borderRadius: '10px' }}
-          >
-            <br />
-
-            <h7>
-              Email: <b>{userData.user.email}</b>
-            </h7>
-
-            <br /> <br />
-
-            <h6>
-              <b>Users Online:</b>
-            </h6>
-
-            <ul style={{ listStyleType: 'none' }}>
-              {chatUsers.map((user) => {
-                return (
-                  <li
-                    onClick={enteringRoom}
-                    style={{ cursor: 'pointer' }}
-                    key={user}
-                  >
-                    {user}
-                  </li>
-                );
-              })}
-            </ul>
-          </Col>
-          &nbsp; &nbsp;
-          <Col style={{ border: '1px solid black', borderRadius: '10px' }}>
-            <p>Chat Messages ({currentRoom})</p>
-            <div
-              id='chatMessages'
-              style={{ border: '1px solid white', borderRadius: '10px' }}
+    isAuthenticated && (
+      <div>
+        <Container>
+          <Row>
+            <Col
+              xs={5}
+              style={{ border: '1px solid black', borderRadius: '10px' }}
             >
-              &nbsp; &nbsp; Messages:
-              <ul style={{ listStyle: 'none' }}>
-                {messageList.map((chat, index) => {
+              <br />
+              <h7>
+                Email: <b>{user.email}</b>
+              </h7>
+              <br /> <br />
+              <h6>
+                <b>Users Online:</b>
+              </h6>
+              <ul style={{ listStyleType: 'none' }}>
+                {chatUsers.map((user) => {
                   return (
-                    <li key={index}>
-                      <b>{chat.name}: </b>
-                      <i>
-                        <span
-                          style={{
-                            color: messageList.isPrivate ? 'white' : 'black',
-                          }}
-                        >
-                          {chat.message}
-                        </span>
-                      </i>
+                    <li
+                      onClick={enteringRoom}
+                      style={{ cursor: 'pointer' }}
+                      key={user}
+                    >
+                      {user}
                     </li>
                   );
                 })}
               </ul>
-            </div>
+            </Col>
+            &nbsp; &nbsp;
+            <Col style={{ border: '1px solid black', borderRadius: '10px' }}>
+              <p>Chat Messages ({currentRoom})</p>
+              <div
+                id='chatMessages'
+                style={{ border: '1px solid white', borderRadius: '10px' }}
+              >
+                &nbsp; &nbsp; Messages:
+                <ul style={{ listStyle: 'none' }}>
+                  {messageList.map((chat, index) => {
+                    return (
+                      <li key={index}>
+                        <i>{chat.name}: </i>
+                        <i>
+                          <span
+                            style={{ color: 'white' }}
+                          >
+                            <b>{chat.message}</b>
+                          </span>
+                        </i>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
 
-            <br />
+              <br />
 
-            <form onSubmit={newMessageSubmit}>
-              <input
-                type='text'
-                name='message'
-                class='form-control'
-                value={chatMessage.message}
-                onChange={handleChange}
-                required
-              />
-              <br />
-              <input
-                type='submit'
-                class='btn btn-success btn-sm'
-                value='Send Me!'
-              />
+              <form onSubmit={newMessageSubmit}>
+                <input
+                  type='text'
+                  name='message'
+                  class='form-control'
+                  value={chatMessage.message}
+                  onChange={handleChange}
+                  required
+                />
+                <br />
+                <input
+                  type='submit'
+                  class='btn btn-success btn-sm'
+                  value='Send Me!'
+                />
 
-              <br />
-              <br />
-            </form>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+                <br />
+                <br />
+              </form>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    )
   );
 };
 

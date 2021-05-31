@@ -1,145 +1,97 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { UserContext } from '../../App';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { Button } from 'react-bootstrap';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Profile = () => {
-  const { userData, setUserData } = useContext(UserContext);
-
-  const [fruits, setFruits] = useState([]);
-
-  // using use effect to get run fetching data once
-  useEffect(() => {
-    axios.get('/api/fruits').then((response) => setFruits(response.data));
-  }, []);
-
-  const userDelete = () => {
-    axios
-      .delete('/api/users/profile', {
-        headers: {
-          'auth-token': userData.token,
-        },
-      })
-      .then((window.location = '/fruitlist'));
-
-    setUserData({
-      token: undefined,
-      user: undefined,
-    });
-    localStorage.setItem('auth-token', '');
-  };
+  const { user, logout, isAuthenticated } = useAuth0();
 
   return (
-    <div class='col-md-8'>
-      <h1>Profile Information</h1>
+    isAuthenticated && (
+      <div class='col-md-8'>
+        <h1>Profile Information</h1>
 
-      <div class='form-group'>
-        <fieldset disabled=''>
-          <label class='form-label' for='disabledInput'>
-            Name
-          </label>
-          <input
-            class='form-control'
-            id='readOnlyInput'
-            type='text'
-            placeholder={userData.user.name}
-            readonly=''
-          />
-        </fieldset>
+        <div class='d-flex justify-content-center'>
+          <div className='col-md-2 mb-3'>
+            <img
+              src={user.picture}
+              alt='Profile'
+              className='rounded-circle img-fluid profile-picture mb-3 mb-md-0'
+            />
+          </div>
+        </div>
+
+        <div class='form-group'>
+          <fieldset disabled=''>
+            <label class='form-label' for='disabledInput'>
+              Name
+            </label>
+            <input
+              class='form-control'
+              id='readOnlyInput'
+              type='text'
+              placeholder={user.name}
+              readonly=''
+            />
+          </fieldset>
+        </div>
+
+        <div class='form-group'>
+          <fieldset>
+            <label class='form-label mt-4' for='readOnlyInput'>
+              Email
+            </label>
+            <input
+              class='form-control'
+              id='readOnlyInput'
+              type='text'
+              placeholder={user.email}
+              readonly=''
+            />
+          </fieldset>
+        </div>
+
+
+        <div class='form-group'>
+          <fieldset>
+            <label class='form-label mt-4' for='readOnlyInput'>
+              Locale
+            </label>
+            <input
+              class='form-control'
+              id='readOnlyInput'
+              type='text'
+              placeholder={user.locale}
+              readonly=''
+            />
+          </fieldset>
+        </div>
+
+        <div class='form-group'>
+          <fieldset>
+            <label class='form-label mt-4' for='readOnlyInput'>
+              Last Profile Update
+            </label>
+            <input
+              class='form-control'
+              id='readOnlyInput'
+              type='text'
+              placeholder={user.updated_at}
+              readonly=''
+            />
+          </fieldset>
+        </div>
+
+        <br />
+
+        <div class='form-group'>
+          <fieldset>
+            <Button className='btn btn-dark' onClick={() => logout()}>
+              Logout
+            </Button>
+          </fieldset>
+        </div>
       </div>
-
-      <div class='form-group'>
-        <fieldset>
-          <label class='form-label mt-4' for='readOnlyInput'>
-            Email
-          </label>
-          <input
-            class='form-control'
-            id='readOnlyInput'
-            type='text'
-            placeholder={userData.user.email}
-            readonly=''
-          />
-        </fieldset>
-      </div>
-
-      <div class='form-group'>
-        <fieldset>
-          <label class='form-label mt-4' for='readOnlyInput'>
-            User ID
-          </label>
-          <input
-            class='form-control'
-            id='readOnlyInput'
-            type='text'
-            placeholder={userData.user.id}
-            readonly=''
-          />
-        </fieldset>
-      </div>
-
-      <div class='form-group'>
-        <fieldset>
-          <label class='form-label mt-4' for='readOnlyInput'>
-            Date Registered
-          </label>
-          <input
-            class='form-control'
-            id='readOnlyInput'
-            type='text'
-            placeholder={
-              userData.user.date.toString().slice(0, 10) +
-              '@' +
-              userData.user.date.toString().slice(11, 19)
-            }
-            readonly=''
-          />
-        </fieldset>
-      </div>
-
-      <br />
-
-      <h5>
-        <b>Fruits Added:</b>
-      </h5>
-
-      <div class='form-group'>
-        <ul style={{ listStyle: 'none' }}>
-          {fruits
-            .filter((fruit) => {
-              if (fruit.addedBy === userData.user.name) {
-                return fruit;
-              }
-            })
-            .map((fruit) => {
-              return (
-                <li key={fruit._id}>
-                  <Link to={`/fruit/${fruit._id}`}>
-                    <b>{fruit.name}</b>
-                  </Link>{' '}
-                  ({fruit.amount}) - {fruit.info}
-                  &nbsp;[Added on{' '}
-                  <i>
-                    {fruit.date.toString().slice(0, 10) +
-                      ' @ ' +
-                      fruit.date.toString().slice(11, 19)}
-                  </i>
-                  ]
-                </li>
-              );
-            })}
-        </ul>
-      </div>
-
-      <div class='form-group'>
-        <fieldset>
-          <Button className='btn btn-primary' onClick={userDelete}>
-            Delete Account
-          </Button>
-        </fieldset>
-      </div>
-    </div>
+    )
   );
 };
 
