@@ -1,6 +1,6 @@
 # Web Chat App
 
-This is a chat application built with socket io and with a basic JWT authentication
+This is a chat application built with socket io and with Auth0
 
 ### Stack (Mern)
 1. MongoDB
@@ -19,6 +19,7 @@ This is a chat application built with socket io and with a basic JWT authenticat
 7. mongoose: 5.12.11
 8. nodemon: 2.0.7
 9. socket.io: 4.1.2"
+10. @auth0/auth0-react: 1.5.0
 
 ### Demo
 https://akrong-react-chat.herokuapp.com/
